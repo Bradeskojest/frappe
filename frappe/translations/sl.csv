@@ -1459,7 +1459,7 @@ DocType: Custom Field,Field Description,Opis polja
 apps/frappe/frappe/model/naming.py +50,Name not set via Prompt,Ime ni nastavljena prek Prompt
 DocType: Note,Note is a free page where users can share documents / notes,"Opomba je brezplačna stran, kjer lahko uporabniki delijo dokumentov / opombe"
 DocType: Website Theme,Top Bar Color,Top Bar Color
-DocType: DocType,Setup,Nastaviti
+DocType: DocType,Setup,Nastavitve
 DocType: DocType,Allow Import,Dovoli Import
 apps/frappe/frappe/templates/includes/comments/comments.py +55,New comment on {0} {1},Nov komentar na {0} {1}
 DocType: Workflow State,glass,steklo
