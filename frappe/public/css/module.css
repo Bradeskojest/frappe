@@ -11,17 +11,17 @@
 }
 .module-body .section-head {
   margin-bottom: 15px;
+  margin-top: 0px;
 }
 .module-section {
   border-bottom: 1px solid #EBEFF2;
 }
 .module-section .module-section-link {
   line-height: 1.5em;
-  font-size: 12px;
+  font-size: 14px;
 }
 .module-section-column {
-  padding: 15px 30px;
-  padding-bottom: 20px;
+  padding: 30px;
 }
 @media (min-width: 767px) {
   .module-section:nth-child(even) {
