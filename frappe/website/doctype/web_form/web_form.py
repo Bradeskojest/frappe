@@ -102,6 +102,7 @@ class WebForm(WebsiteGenerator):
 		if frappe.form_dict.name:
 			context.doc = frappe.get_doc(self.doc_type, frappe.form_dict.name)
 			context.title = context.doc.get(context.doc.meta.get_title_field())
+			context.doc.add_seen()
 
 			context.reference_doctype = context.doc.doctype
 			context.reference_name = context.doc.name
@@ -118,13 +119,15 @@ class WebForm(WebsiteGenerator):
 
 		# back link given with back-to url argument
 		if frappe.form_dict.get('back-to'):
-			link = frappe.form_dict.get('back-to').split('|')
+			link = frappe.form_dict.get('back-to')
+			title = frappe.form_dict.get('back-to-title') or _('Back')
 
 			# breadcrumbs
-			context.parents = [{'name': link[0], 'title': link[1] if len(link) > 1 else _('Back') }]
+			context.parents = [{'name': link, 'title': title }]
 
 			# success
-			context.success_url = link[0]
+			context.success_url = link
+			context.cancel_url = link
 
 		return context
 

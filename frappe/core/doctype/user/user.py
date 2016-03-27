@@ -39,7 +39,7 @@ class User(Document):
 		if self.name not in STANDARD_USERS:
 			self.validate_email_type(self.email)
 		self.add_system_manager_role()
-		self.validate_system_manager_user_type()
+		self.set_system_user()
 		self.check_enable_disable()
 		self.update_gravatar()
 		self.ensure_unique_roles()
@@ -74,12 +74,6 @@ class User(Document):
 				"role": "System Manager"
 			})
 
-	def validate_system_manager_user_type(self):
-		#if user has system manager role then user type should be system user
-		if ("System Manager" in [user_role.role for user_role in
-			self.get("user_roles")]) and self.get("user_type") != "System User":
-				frappe.throw(_("User with System Manager Role should always have User Type: System User"))
-
 	def email_new_password(self, new_password=None):
 		if new_password and not self.in_insert:
 			_update_password(self.name, new_password)
@@ -87,6 +81,12 @@ class User(Document):
 			if self.send_password_update_notification:
 				self.password_update_mail(new_password)
 				frappe.msgprint(_("New password emailed"))
+
+	def set_system_user(self):
+		if self.user_roles or self.name == 'Administrator':
+			self.user_type = 'System User'
+		else:
+			self.user_type = 'Website User'
 
 	def on_update(self):
 		# clear new password
@@ -452,7 +452,6 @@ def user_query(doctype, txt, searchfield, start, page_len, filters):
 		where enabled=1
 			and docstatus < 2
 			and name not in ({standard_users})
-			and user_type != 'Website User'
 			and ({key} like %s
 				or concat_ws(' ', first_name, middle_name, last_name) like %s)
 			{mcond}
